@@ -9,8 +9,8 @@ function CommunityWritePage({ boardType = "community" }) {
   const isMentoring = boardType === "mentoring";
 
   const categoryOptions = isMentoring
-    ? ["진로상담", "작품피드백", "멘토링", "멘토후기", "Q&A"]
-    : ["작품공유", "피드백요청", "질문", "입시정보", "자유"];
+  ? ["진로상담", "작품피드백", "포트폴리오", "멘토후기", "Q&A"]
+  : ["작품공유", "피드백요청", "질문", "입시정보", "자유"];
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

@@ -16,8 +16,8 @@ function CommunityListPage({ boardType = "community" }) {
   const isMentoring = boardType === "mentoring";
 
   const categories = isMentoring
-    ? ["전체", "진로상담", "포트폴리오", "작품상담", "멘토후기", "Q&A"]
-    : ["전체", "작품공유", "피드백요청", "질문", "입시정보", "자유"];
+  ? ["전체", "진로상담", "작품피드백", "포트폴리오", "멘토후기", "Q&A"]
+  : ["전체", "작품공유", "피드백요청", "질문", "입시정보", "자유"];
 
   const pageTitle = isMentoring ? "멘토링" : "커뮤니티";
 
