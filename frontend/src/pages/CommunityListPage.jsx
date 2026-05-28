@@ -16,16 +16,16 @@ function CommunityListPage({ boardType = "community" }) {
   const isMentoring = boardType === "mentoring";
 
   const categories = isMentoring
-    ? ["전체", "진로상담", "작품피드백", "멘토링", "멘토후기", "Q&A"]
+    ? ["전체", "진로상담", "포트폴리오", "작품상담", "멘토후기", "Q&A"]
     : ["전체", "작품공유", "피드백요청", "질문", "입시정보", "자유"];
 
   const pageTitle = isMentoring ? "멘토링" : "커뮤니티";
 
   const pageDesc = isMentoring
-    ? "멘토가 학생에게 작품 피드백과 진로 상담을 제공하는 공간입니다."
+    ? "학생은 상담과 피드백을 요청하고, 멘토는 작품 방향성과 진로에 대한 조언을 제공하는 공간입니다."
     : "학생, 학부모, 멘토가 자유롭게 소통하는 커뮤니티입니다.";
 
-  const canWrite = isMentoring ? user?.role === "mentor" : !!user;
+  const canWrite = !!user;
   const writePath = isMentoring ? "/mentoring/write" : "/community/write";
 
   const getAuthorName = (post) => {
@@ -124,18 +124,18 @@ function CommunityListPage({ boardType = "community" }) {
           </div>
 
           <div style={styles.heroActions}>
-            {canWrite ? (
+            {user ? (
               <Link to={writePath} style={styles.writeButton}>
-                글쓰기
-              </Link>
-            ) : user ? (
-              <span style={styles.disabledButton}>
-                {isMentoring ? "멘토만 작성 가능" : "작성 불가"}
-              </span>
-            ) : (
-              <Link to="/login" style={styles.loginButton}>
-                로그인 후 글쓰기
-              </Link>
+            {isMentoring
+              ? user.role === "mentor"
+                ? "멘토링 글쓰기"
+                : "상담 요청하기"
+              : "글쓰기"}
+            </Link>
+          ) : (
+          <Link to="/login" style={styles.loginButton}>
+            로그인 후 이용 가능
+          </Link>
             )}
           </div>
         </section>
@@ -176,7 +176,7 @@ function CommunityListPage({ boardType = "community" }) {
               <strong>{isMentoring ? "멘토링 안내" : "커뮤니티 안내"}</strong>
               <p>
                 {isMentoring
-                  ? "멘토가 작품 피드백과 진로 상담을 제공하는 공간입니다."
+                  ? "작품 피드백, 포트폴리오 상담, 진로 조언 등 다양한 멘토링 활동이 이루어지는 공간입니다."
                   : "학생, 학부모, 멘토가 자유롭게 소통하는 공간입니다."}
               </p>
             </div>
@@ -217,8 +217,12 @@ function CommunityListPage({ boardType = "community" }) {
 
                   {canWrite ? (
                     <Link to={writePath} style={styles.emptyButton}>
-                      첫 글 작성하기
-                    </Link>
+                    {isMentoring
+                      ? user?.role === "mentor"
+                      ? "멘토링 글쓰기"
+                      : "상담 요청하기"
+                    : "첫 글 작성하기"}
+                  </Link>
                   ) : (
                     <Link to="/login" style={styles.emptyButton}>
                       로그인하기
