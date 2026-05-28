@@ -102,11 +102,14 @@ router.post(
           .json({ error: "올바르지 않은 게시판 유형입니다." });
       }
 
-      if (boardType === "mentoring" && req.user.role !== "mentor") {
+      if (
+       boardType === "mentoring" &&
+       !["student", "mentor"].includes(req.user.role)
+        ) {
         return res
-          .status(403)
-          .json({ error: "멘토만 멘토링 글을 작성할 수 있습니다." });
-      }
+        .status(403)
+        .json({ error: "학생과 멘토만 멘토링 글을 작성할 수 있습니다." });
+        }
 
       if (!title || !content || !category) {
         return res
