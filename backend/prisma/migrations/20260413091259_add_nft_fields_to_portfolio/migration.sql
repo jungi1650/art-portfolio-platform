@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `portfolio` ADD COLUMN `ipfsHash` VARCHAR(191) NULL,
+    ADD COLUMN `isMinted` BOOLEAN NOT NULL DEFAULT false,
+    ADD COLUMN `metadataUrl` VARCHAR(191) NULL,
+    ADD COLUMN `tokenId` VARCHAR(191) NULL;

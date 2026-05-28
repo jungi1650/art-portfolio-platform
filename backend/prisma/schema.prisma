@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  passwordHash   String
+  role           String
+
+  name           String?
+  mentorField    String?
+  bio            String? @db.Text
+
+  createdAt      DateTime @default(now())
+
+  walletAddress  String? @db.VarChar(191)
+
+  studentProfile    StudentProfile?
+  portfolios        Portfolio[]
+  communityPosts    CommunityPost[]
+  communityComments CommunityComment[]
+}
+
+model StudentProfile {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  studentName String
+  academyName String?
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ParentLink {
+  id        Int      @id @default(autoincrement())
+  parentId  Int
+  studentId Int
+  createdAt DateTime @default(now())
+
+  @@unique([parentId, studentId])
+}
+
+model Portfolio {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  title           String
+  description     String?
+  imageUrl        String
+  category        String   @default("기타")
+  createdAt       DateTime @default(now())
+
+  isMinted        Boolean  @default(false)
+  ipfsHash        String?
+  metadataUrl     String?
+  tokenId         Int?
+  txHash          String?
+  ownerAddress    String?
+  contractAddress String?
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model CommunityPost {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  content   String
+  category  String
+  boardType String   @default("community")
+  imageUrl  String?
+  createdAt DateTime @default(now())
+
+  user     User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments CommunityComment[]
+}
+
+model CommunityComment {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  content   String
+  createdAt DateTime @default(now())
+
+  post CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

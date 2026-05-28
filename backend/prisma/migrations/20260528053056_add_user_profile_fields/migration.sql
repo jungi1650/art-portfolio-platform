@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `bio` TEXT NULL,
+    ADD COLUMN `mentorField` VARCHAR(191) NULL,
+    ADD COLUMN `name` VARCHAR(191) NULL;
