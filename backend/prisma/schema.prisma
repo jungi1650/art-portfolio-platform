@@ -71,7 +71,7 @@ model CommunityPost {
   id        Int      @id @default(autoincrement())
   userId    Int
   title     String
-  content   String
+  content   String   @db.Text
   category  String
   boardType String   @default("community")
   imageUrl  String?
@@ -85,7 +85,7 @@ model CommunityComment {
   id        Int      @id @default(autoincrement())
   postId    Int
   userId    Int
-  content   String
+  content   String   @db.Text
   createdAt DateTime @default(now())
 
   post CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
