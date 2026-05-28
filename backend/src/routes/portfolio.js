@@ -112,7 +112,7 @@ router.post(
 router.get("/public/recent", async (req, res) => {
   try {
     const portfolios = await prisma.portfolio.findMany({
-      take: 6,
+      take: 8,
       orderBy: { createdAt: "desc" },
       include: {
         user: {
@@ -144,7 +144,7 @@ router.get("/public/certified", async (req, res) => {
       where: {
         isMinted: true,
       },
-      take: 6,
+      take: 8,
       orderBy: { createdAt: "desc" },
       include: {
         user: {
